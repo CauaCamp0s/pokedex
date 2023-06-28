@@ -18,17 +18,19 @@ const colors = {
 };
 
 const mainTypes = Object.keys(colors);
+const allPokemons = [];
 
 const fetchPokemons = async () => {
   for (let i = 1; i <= pokemonCount; i++) {
-    await getPokemons(i);
+    await getPokemon(i);
   }
 };
 
-const getPokemons = async (pokemonNumber) => {
+const getPokemon = async (pokemonNumber) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${pokemonNumber}`;
   const resp = await fetch(url);
   const data = await resp.json();
+  allPokemons.push(data);
   createPokemonCard(data);
 };
 
@@ -60,5 +62,17 @@ const createPokemonCard = (poke) => {
 
   pokeContainer.appendChild(card);
 };
+
+// Função para realizar a busca
+const searchPokemon = () => {
+  const searchInput = document.querySelector("#search-input").value.toLowerCase();
+  const filteredPokemons = allPokemons.filter(pokemon => pokemon.name.toLowerCase().startsWith(searchInput));
+  pokeContainer.innerHTML = '';
+  filteredPokemons.forEach(pokemon => createPokemonCard(pokemon));
+};
+
+// Adiciona um evento de digitação no campo de busca
+const searchInput = document.querySelector("#search-input");
+searchInput.addEventListener('input', searchPokemon);
 
 fetchPokemons();
