@@ -60,6 +60,16 @@ const createPokemonCard = (poke) => {
 
   card.innerHTML = pokemonInnerHTML;
 
+  // Adiciona o efeito de zoom no card de Pokémon ao passar o mouse
+  card.addEventListener('mouseenter', () => {
+    card.style.transform = 'scale(1.1)';
+    card.style.transition = 'transform 0.3s ease';
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'scale(1)';
+  });
+
   pokeContainer.appendChild(card);
 };
 
